@@ -45,9 +45,9 @@ public class LockedMe {
 		int Option = sc.nextInt();
 		
 		switch(Option) {
-		case 1:{ signUp();}
+		case 1:{ signUp(); break;}
 		
-		case 2:{ signIn();}
+		case 2:{ signIn(); break;}
 		
 		case 3:{ System.exit(Option); }
 		
@@ -59,8 +59,7 @@ public class LockedMe {
 		
 	    }
 	
-	
-public static void signUp() throws IOException {
+	public static void signUp() throws IOException {
 		
 		System.out.println("==========================================");
 		System.out.println("*					*");
@@ -70,7 +69,10 @@ public static void signUp() throws IOException {
 	try {	
 		System.out.println("Enter Username: ");
 		String username = input.next();
-		boolean found = false;
+		if(readDbFile.next().equals(username)) {
+			System.out.println("** Username Already Exists **");
+			signUp();
+		}
 		details.setUserName(username);
 		
 		System.out.println("Enter Password : ");
@@ -106,23 +108,24 @@ public static void signUp() throws IOException {
 			if(readDbFile.next().equals(inname)) {
 				System.out.println("Enter Pasword : ");
 				String inpassword = input.next();
-				if(readDbFile.next().equals(inpassword)) {
+				if( readDbFile.next().equals(inpassword)) {
 					System.out.println("User Logged in Successfully!\n");
 					found = true;
                 dirCreate();
                 showMenu();
-				}
-			}
+                break;
+				}}
+			
 			}if(!found) {
 				System.out.println("User not Found");
 				System.out.println("1.Retry\n2.Return Main Menu\n3.Close the application");
 				Scanner sc = new Scanner(System.in);
 				int chance = sc.nextInt();
 				switch(chance) {
-				case 1:{ signIn(); };
-				case 2:{ mainMenu(); }
-				case 3:{ System.exit(chance); }
-				default:{ System.out.println("Invalid Input"); mainMenu(); }
+				case 1:{ signIn();}break;
+				case 2:{ mainMenu(); } break;
+				case 3:{sc.close();  break; }
+				default:{ System.out.println("Invalid Input"); mainMenu(); break;}
 				}
 			}
 	}catch (Exception e) {
@@ -270,6 +273,7 @@ public static void signUp() throws IOException {
 	public static void tools() throws IOException{
 		File file = new File("UsersDB.txt");
 		file.createNewFile();
+		
 		try {	
 			input = new Scanner(System.in);
 			readDbFile = new Scanner(file);
