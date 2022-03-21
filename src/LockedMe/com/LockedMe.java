@@ -24,6 +24,7 @@ public class LockedMe {
 	static String Directory;
 	static File createFile;
 	
+	
 	public static void main(String[] args) throws IOException {
 		tools();
 		welcomeMessage();
@@ -31,36 +32,35 @@ public class LockedMe {
 	    }
 
 	public static void mainMenu() throws IOException {
-		
+		System.out.println();
 		System.out.println("==========================================");
 		System.out.println("*					*");
 		System.out.println("*         WELCOME TO MAIN MENU	        *");
 		System.out.println("*					*");
 		System.out.println("==========================================");
 		
-		System.out.println("Select an option\n 1.Sign up\n 2.Sign in\n 3.Exit");
+		System.out.println("Select an option\n 1.Sign up\n 2.Sign in\n 3.Close the application");
 	try {
 		Scanner sc = new Scanner(System.in);
 		int Option = sc.nextInt();
 		
 		switch(Option) {
-		case 1:{ signUp(); }
+		case 1:{ signUp();}
 		
-		case 2:{ signIn(); }
+		case 2:{ signIn();}
 		
-		case 3:{ break; }
+		case 3:{ System.exit(Option); }
 		
 		default:{ System.out.println("Invalid Input, Try Again"); mainMenu(); }
+		sc.close();
 		}
 		}catch(Exception e) {
-			System.out.println("Invalid Input, Try Again");
-			mainMenu();
 		}
 		
 	    }
 	
 	
-	public static void signUp() throws IOException {
+public static void signUp() throws IOException {
 		
 		System.out.println("==========================================");
 		System.out.println("*					*");
@@ -70,6 +70,7 @@ public class LockedMe {
 	try {	
 		System.out.println("Enter Username: ");
 		String username = input.next();
+		boolean found = false;
 		details.setUserName(username);
 		
 		System.out.println("Enter Password : ");
@@ -77,17 +78,21 @@ public class LockedMe {
 		details.setPassword(password);
 		
 		System.out.println("User registered successfully");
-		
+	
 		collect.println(details.getUserName());
 		collect.println(details.getPassword());
 		
 		collect.close();
 		mainMenu();
+		
 	   }catch(Exception e) {
 		   signUp();
 	   }
 	   }
+	   
+	
 	public static void signIn() throws IOException {
+		System.out.println();
 		System.out.println("==========================================");
 		System.out.println("*					*");
 		System.out.println("*         WELCOME TO Login PAGE	        *");
@@ -110,24 +115,24 @@ public class LockedMe {
 			}
 			}if(!found) {
 				System.out.println("User not Found");
-				System.out.println("3.exit");
+				System.out.println("1.Retry\n2.Return Main Menu\n3.Close the application");
 				Scanner sc = new Scanner(System.in);
 				int chance = sc.nextInt();
 				switch(chance) {
-				case 3:{ break; }
+				case 1:{ signIn(); };
+				case 2:{ mainMenu(); }
+				case 3:{ System.exit(chance); }
 				default:{ System.out.println("Invalid Input"); mainMenu(); }
 				}
 			}
 	}catch (Exception e) {
-		
-		mainMenu();
 	}
 		}
 	
 	
 	public static void showMenu() throws IOException {
 		System.out.println("*******Entered Locker*******");
-		System.out.println("1.List Files in Directory\n2.Add,Delete or Search File in Directory\n3.Exit");
+		System.out.println("1.List Files in Directory\n2.Add,Delete or Search File in Directory\n3.Close the application");
 		try {
 		Scanner sc = new Scanner(System.in);
 		int option1 = sc.nextInt();
@@ -135,7 +140,7 @@ public class LockedMe {
 		case 1:{ listFiles(); }
 		try {
 		Scanner sc1 = new Scanner(System.in);
-		System.out.println("1.Return to Locker\n2.Exit");
+		System.out.println("1.Return to Locker\n2.Close the application");
 		int op = sc1.nextInt();
 		switch(op) {
 		case 1 :{ showMenu(); }
@@ -151,7 +156,6 @@ public class LockedMe {
 		
 		default:{ System.out.println("Invalid Input"); showMenu();}
 		}}catch(Exception e) {
-			showMenu();
 		}
 		
 	}
@@ -182,7 +186,7 @@ public class LockedMe {
 		
 		switch(option3) {
 		
-		case 1:{ System.out.println("Enter File Name : ");
+		case 1:{ System.out.println("Enter File Name to Add : ");
 		Scanner sc2 = new Scanner(System.in);
 		String Name = sc2.next().trim().toLowerCase(); 
 		addFile(Name);
