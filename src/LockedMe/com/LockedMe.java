@@ -19,8 +19,10 @@ public class LockedMe {
 	
 	private static Scanner input;
 	private static Scanner readDbFile;
+	private static Scanner scar;
 	private static UserDetails details;
 	private static PrintWriter collect;
+	private static File DBfile; 
 	static String Directory;
 	static File createFile;
 	
@@ -39,24 +41,25 @@ public class LockedMe {
 		System.out.println("*					*");
 		System.out.println("==========================================");
 		
-		System.out.println("Select an option\n 1.Sign up\n 2.Sign in\n 3.Close the application");
+		System.out.println("\nSelect an option\n 1.Sign up\n 2.Sign in\n 3.Close the application\n");
 	try {
 		Scanner sc = new Scanner(System.in);
 		int Option = sc.nextInt();
 		
 		switch(Option) {
-		case 1:{ signUp(); break;}
+		case 1: {signUp();}
 		
-		case 2:{ signIn(); break;}
+		case 2: {signIn();}
 		
-		case 3:{ System.exit(Option); }
+		case 3:{System.exit(Option); break;}
 		
-		default:{ System.out.println("Invalid Input, Try Again"); mainMenu(); }
-		sc.close();
+		default:{ System.out.println("\n** Invalid Input, Try Again **\n"); mainMenu(); }
+		
 		}
+		
 		}catch(Exception e) {
 		}
-		
+		System.out.println("\n** Invalid Input, Try Again **\n"); mainMenu(); 
 	    }
 	
 	public static void signUp() throws IOException {
@@ -67,27 +70,36 @@ public class LockedMe {
 		System.out.println("*					*");
 		System.out.println("==========================================");
 	try {	
-		System.out.println("Enter Username: ");
+		System.out.println("\nEnter Username: \n");
 		String username = input.next();
-		if(readDbFile.next().equals(username)) {
-			System.out.println("** Username Already Exists **");
+		while(readDbFile.hasNext()) {
+			if(readDbFile.next().equals(username)) {
+			System.out.println("\n** Username Already Exists **\n");
 			signUp();
-		}
+			}}
 		details.setUserName(username);
 		
-		System.out.println("Enter Password : ");
+		System.out.println("\nEnter Password : \n");
 		String password = input.next();
 		details.setPassword(password);
 		
-		System.out.println("User registered successfully");
-	
+		System.out.println("\nUser registered successfully\n");
+		
 		collect.println(details.getUserName());
 		collect.println(details.getPassword());
 		
 		collect.close();
-		mainMenu();
 		
-	   }catch(Exception e) {
+		System.out.println("\n1.Return to Main Menu\n2.Close the application\n");
+		Scanner sdk = new Scanner(System.in);
+		int mt15 = sdk.nextInt();
+		switch(mt15) {
+		case 1: main(null);
+		case 2: break;
+		default: System.out.println("\n** Invalid Input **\n"); main(null);
+		}
+		}
+	   catch(Exception e) {
 		   signUp();
 	   }
 	   }
@@ -100,42 +112,39 @@ public class LockedMe {
 		System.out.println("*         WELCOME TO Login PAGE	        *");
 		System.out.println("*					*");
 		System.out.println("==========================================");
-	try {	
-		System.out.println("Enter Username : ");
-		String inname = input.next();
-		boolean found = false;
-		while(readDbFile.hasNext() && !found) {
-			if(readDbFile.next().equals(inname)) {
-				System.out.println("Enter Pasword : ");
-				String inpassword = input.next();
-				if( readDbFile.next().equals(inpassword)) {
-					System.out.println("User Logged in Successfully!\n");
+		try {	
+			System.out.println("\nEnter Username : ");
+			String inname = input.next();
+			boolean found = false;
+			while(readDbFile.hasNext() && !found) {
+				if(readDbFile.next().equals(inname)) {
+					System.out.println("\nEnter Pasword : ");
+					String inpassword = input.next();
+					if( readDbFile.next().equals(inpassword)) {
+						System.out.println("\n----> User Logged in Successfully! <----\n");
 					found = true;
-                dirCreate();
-                showMenu();
-                break;
-				}}
-			
-			}if(!found) {
-				System.out.println("User not Found");
-				System.out.println("1.Retry\n2.Return Main Menu\n3.Close the application");
-				Scanner sc = new Scanner(System.in);
-				int chance = sc.nextInt();
-				switch(chance) {
-				case 1:{ signIn();}break;
-				case 2:{ mainMenu(); } break;
-				case 3:{sc.close();  break; }
-				default:{ System.out.println("Invalid Input"); mainMenu(); break;}
+	                dirCreate();
+	                showMenu();
+	                break;
+					}}
 				}
-			}
-	}catch (Exception e) {
-	}
+			if(!found) {
+					System.out.println("\n** User not Found (or) Wrong Username or Password **\n");
+					System.out.println("\n1.Return Main Menu\n2.Close the application\n");
+					Scanner sc = new Scanner(System.in);
+					int chance = sc.nextInt();
+					switch(chance) {
+					case 1:{ main(null);}break;
+					case 2:{break; }
+					default:{ System.out.println("\n** Invalid Input **");  main(null); break;}
+					}
+				}
+		}catch (Exception e) {
 		}
-	
-	
+	}
 	public static void showMenu() throws IOException {
-		System.out.println("*******Entered Locker*******");
-		System.out.println("1.List Files in Directory\n2.Add,Delete or Search File in Directory\n3.Close the application");
+		System.out.println("\n*******Entered Locker*******\n");
+		System.out.println("\n1.List Files in Directory\n2.Add,Delete or Search File in Directory\n3.Close the application\n");
 		try {
 		Scanner sc = new Scanner(System.in);
 		int option1 = sc.nextInt();
@@ -143,21 +152,21 @@ public class LockedMe {
 		case 1:{ listFiles(); }
 		try {
 		Scanner sc1 = new Scanner(System.in);
-		System.out.println("1.Return to Locker\n2.Close the application");
+		System.out.println("\n1.Return to Locker\n2.Close the application\n");
 		int op = sc1.nextInt();
 		switch(op) {
 		case 1 :{ showMenu(); }
 		case 2 :{ break; }
-		default:{ System.out.println("Invalid Input"); showMenu();}
+		default:{ System.out.println("\n** Invalid Input **\n"); showMenu();}
 		}
 		}catch(Exception e) {
-			System.out.println("Invalid Input"); showMenu();
+			System.out.println("\n** Invalid Input **\n"); showMenu();
 		}
 		case 2:{ showOperations(); }
 		
 		case 3:{ System.exit(option1); }
 		
-		default:{ System.out.println("Invalid Input"); showMenu();}
+		default:{ System.out.println("\n** Invalid Input **\n"); showMenu();}
 		}}catch(Exception e) {
 		}
 		
@@ -166,9 +175,9 @@ public class LockedMe {
 	public static void listFiles() {
 	try {
 		if(createFile.list().length==0) {
-			System.out.println("Folder is empty");
+			System.out.println("\n** Folder is empty **\n");
 		}else {
-		System.out.println("\n**The Files Available in " + Directory + " are : ");
+		System.out.println("\n**The Files Available in " + Directory + " are : \n");
 		String[] lists = createFile.list();
 		Arrays.sort(lists);
 		for(String view : lists) {
@@ -182,28 +191,28 @@ public class LockedMe {
 	
 	public static void showOperations() throws IOException {
 		
-		System.out.println("\n1.Add New File\n2.Delete Existing File\n3.Search File\n4.Return to Locker");
+		System.out.println("\n1.Add New File\n2.Delete Existing File\n3.Search File\n4.Return to Locker\n");
 		try {	
 		Scanner sc = new Scanner(System.in);
 		int option3 = sc.nextInt();
 		
 		switch(option3) {
 		
-		case 1:{ System.out.println("Enter File Name to Add : ");
+		case 1:{ System.out.println("\nEnter File Name to Add : \n");
 		Scanner sc2 = new Scanner(System.in);
 		String Name = sc2.next().trim().toLowerCase(); 
 		addFile(Name);
 		showMenu();
 		break;
 		}
-			case 2:{ System.out.println("Enter File Name to Delete : ");
+			case 2:{ System.out.println("\nEnter File Name to Delete : \n");
 			Scanner sc4 = new Scanner(System.in);
 			String name2 = sc4.next().trim();
 			deleteFile(name2);
 			showMenu();
 			break;
 			}
-			case 3:{System.out.println("Enter the File Name to Check Status : ");
+			case 3:{System.out.println("\nEnter the File Name to Check Status : \n");
 			Scanner sc5 = new Scanner(System.in);
 			String sc7 = sc5.next().trim();
 			searchFile(sc7);
@@ -211,12 +220,12 @@ public class LockedMe {
 			break;
 			}
 			case 4:{ showMenu();}
-			default:{ System.out.println("Invalid Input");	}
+			default:{ System.out.println("\n** Invalid Input **\n");	}
 			showOperations();
 			break;
 		}
 	}catch(Exception e) {
-		System.out.println("Invalid Input");
+		System.out.println("\n** Invalid Input **\n");
 		showOperations();
 	}
 	}
@@ -227,13 +236,13 @@ public class LockedMe {
 		String list1[] = createFile.list();
 		for(String namecheck : list1) {
 			if(name.equalsIgnoreCase(namecheck)) {
-				System.out.println("File already exists in the folder");
+				System.out.println("\n** File already exists in the folder **\n");
 			return;
 			}
 		}
 		filec.createNewFile();
 		boolean res = filec.createNewFile();
-		if(!res) System.out.println("File Created Successfully");
+		if(!res) System.out.println("\n----> File Created Successfully <----\n");
 		
 	}
 	
@@ -242,11 +251,11 @@ public class LockedMe {
 		String[] list = createFile.list();
 		for(String view1 : list) {
 			if(name.equals(view1) && file.delete()) {
-				System.out.println("File Deleted Successfully");
+				System.out.println("\n----> File Deleted Successfully <----\n");
 				return;
 			}
 		}
-		System.out.println("File Not Found");
+		System.out.println("\n** File Not Found **\n");
 	}
 	
 	public static void searchFile(String Name) {
@@ -254,11 +263,11 @@ public class LockedMe {
 		String[] list = createFile.list();
 		for(String str : list) {
 			if(Name.equals(str)) {
-				System.out.println("File Found");
+				System.out.println("\n----> File Found <----");
 				return;
 			}
 		}
-		System.out.println("File Not Found");
+		System.out.println("\n** File Not Found ))\n");
 	} 
 	
 	public static void welcomeMessage() {
@@ -271,14 +280,15 @@ public class LockedMe {
 	    }
 	
 	public static void tools() throws IOException{
-		File file = new File("UsersDB.txt");
-		file.createNewFile();
+		DBfile = new File("UsersDB.txt");
+		DBfile.createNewFile();
 		
 		try {	
+			scar = new Scanner(System.in);
 			input = new Scanner(System.in);
-			readDbFile = new Scanner(file);
-			file.createNewFile();
-			collect = new PrintWriter(new FileWriter(file,true));
+			readDbFile = new Scanner(DBfile);
+			DBfile.createNewFile();
+			collect = new PrintWriter(new FileWriter(DBfile,true));
 			details = new UserDetails();
 		}catch(Exception e) {
 			System.out.println(e.getClass());
