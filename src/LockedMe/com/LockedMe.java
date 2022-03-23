@@ -100,7 +100,7 @@ public class LockedMe {
 		}
 		}
 	   catch(Exception e) {
-		   signUp();
+		   System.out.println("\n** Invalid Input **\n"); main(null);
 	   }
 	   }
 	   
@@ -168,6 +168,7 @@ public class LockedMe {
 		
 		default:{ System.out.println("\n** Invalid Input **\n"); showMenu();}
 		}}catch(Exception e) {
+			System.out.println("\n** Invalid Input **\n"); showMenu();
 		}
 		
 	}
